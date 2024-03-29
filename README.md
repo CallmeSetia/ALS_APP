@@ -1,1 +1,6 @@
-# ALS_APP
+# Auto Light System - Front End
+
+## FRAMEWORK :
+-  Vue.JS
+-  Shadcdn-Ui
+  
