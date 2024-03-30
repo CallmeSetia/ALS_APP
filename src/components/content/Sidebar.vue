@@ -32,7 +32,7 @@ import {Menu} from "lucide-vue-next";
                   <AlertCircle class="w-4 h-4" />
                   <AlertTitle>Informasi</AlertTitle>
                   <AlertDescription>
-                    Ada versi Terbaru
+                    Sudah versi Terbaru
                   </AlertDescription>
                 </Alert>
               </CardDescription>
@@ -58,7 +58,7 @@ import {Menu} from "lucide-vue-next";
                   <AlertCircle class="w-4 h-4" />
                   <AlertTitle>Informasi</AlertTitle>
                   <AlertDescription>
-                    Ada versi Terbaru
+                    Sudah versi Terbaru
                   </AlertDescription>
                 </Alert>
               </CardDescription>
