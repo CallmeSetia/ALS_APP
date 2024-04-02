@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import { AlertCircle } from 'lucide-vue-next'
-import {Card, CardContent, CardDescription, CardHeader, CardTitle} from '@/components/ui/card'
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import {Sheet, SheetContent, SheetTrigger} from "@/components/ui/sheet";
 import {Button} from "@/components/ui/button";
 import {Menu} from "lucide-vue-next";
+import { settingsData} from "@/state/state.ts";
 </script>
 
 <template>
@@ -20,60 +18,35 @@ import {Menu} from "lucide-vue-next";
       </Button>
     </SheetTrigger>
     <SheetContent side="left" class="flex flex-col">
-      <nav class="grid gap-6 mt-5 text-lg font-medium">
-        <div class="mt-auto p-2">
-          <Card>
-            <CardHeader class="p-5  md:p-4">
-              <CardTitle>Upgrade to App</CardTitle>
-              <CardDescription class="py-2">
-                Unlock all features and get unlimited access to our support
-                team.
-                <Alert class="mt-2" >
-                  <AlertCircle class="w-4 h-4" />
-                  <AlertTitle>Informasi</AlertTitle>
-                  <AlertDescription>
-                    Sudah versi Terbaru
-                  </AlertDescription>
-                </Alert>
-              </CardDescription>
-            </CardHeader>
-            <CardContent class="md:p-4 md:pt-2">
-              <Button size="sm"  variant="outline" class="my-2 w-full">
-                Check
-              </Button>
-              <Button size="sm" class="my-2 w-full">
-                Upgrade
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-        <div class="mt-auto p-2">
-          <Card>
-            <CardHeader class="p-5  md:p-4">
-              <CardTitle>Upgrade to Firmware</CardTitle>
-              <CardDescription class="py-2">
-                Unlock all features and get unlimited access to our support
-                team.
-                <Alert class="mt-2" >
-                  <AlertCircle class="w-4 h-4" />
-                  <AlertTitle>Informasi</AlertTitle>
-                  <AlertDescription>
-                    Sudah versi Terbaru
-                  </AlertDescription>
-                </Alert>
-              </CardDescription>
-            </CardHeader>
-            <CardContent class="  md:p-4 md:pt-2">
-              <Button size="sm"  variant="outline" class="my-2 w-full">
-                Check
-              </Button>
-              <Button size="sm" class="my-2 w-full">
-                Upgrade
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
+      <nav class="grid gap-2 text-lg font-medium">
+        Home
+        <a @click="settingsData.page.value = 'index'"
+           class="mx-[-0.65rem] flex items-center gap-4 rounded-xl  py-2 text-foreground hover:text-foreground hover:bg-muted/50"
+        >
+          <ShoppingCart class="h-5 w-5" />
+          Kontrol
+        </a>
+        <p
+
+            class="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground "
+        >
+         Pengaturan
+        </p>
+        <a @click="settingsData.page.value = 'settings-tema'"
+           class="mx-[-0.65rem] flex items-center gap-4 rounded-xl  px-3 py-2 text-foreground  hover:text-foreground hover:bg-muted/50"
+        >
+          <ShoppingCart class="h-5 w-5" />
+          Tema
+        </a>
+        <a @click="settingsData.page.value = 'settings-update'"
+           class="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground hover:bg-muted/50"
+        >
+          <Package class="h-5 w-5" />
+          Update
+        </a>
+
       </nav>
+
 
 
     </SheetContent>

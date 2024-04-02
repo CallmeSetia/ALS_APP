@@ -1,23 +1,44 @@
 <script setup lang="ts">
-// import HelloWorld from './components/HelloWorld.vue'
-import SPA from "@/components/SPA.vue";
+// import Spinner from "@/components/ui/spinner/spinner.vue";
+
+import {delay, deviceName, mode, serialNumber} from "@/util/mockup.ts";
+import {alsData, settingsData} from "@/state/state.ts";
+
+import { onMounted } from 'vue';
+// import MainPage from "@/components/MainPage.vue";
+// import ModernTheme from "@/components/ModernTheme.vue";
+// import ClassicTheme from "@/components/ClassicTheme.vue";
+// import HelloWorld from "@/components/HelloWorld.vue";
+
+import {useColorMode} from '@vueuse/core'
+const colorTheme = useColorMode()
+
+
+onMounted(syncMockDataToState);
+
+function syncMockDataToState() {
+  settingsData.startLoading()
+  // Sinkronisasi mode
+  
+  alsData.setDelayALS(delay)
+  alsData.setModeALS(mode)
+  alsData.setDeviceNameALS(deviceName)
+  alsData.setSerialDeviceALS(serialNumber)
+
+  colorTheme.value = 'dark'
+
+  settingsData.stopLoading()
+}
+
+
+
+
 </script>
 
 <template>
-  <SPA></SPA>
+  <router-view></router-view>
 </template>
 
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
+
 </style>

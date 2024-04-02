@@ -1,14 +1,14 @@
 <script setup lang="ts">
+
 import {
   ArrowUpRight,
   Users,
   Siren,
   TimerReset
 } from 'lucide-vue-next'
-import {AspectRatio} from '@/components/ui/aspect-ratio'
+// import {AspectRatio} from '@/components/ui/aspect-ratio'
 import {Button} from '@/components/ui/button'
 import {Card, CardContent, CardFooter, CardHeader, CardTitle} from '@/components/ui/card'
-import {ref} from 'vue'
 import {Minus, Plus} from 'lucide-vue-next'
 import MainHeader from "@/components/content/MainHeader.vue";
 import {
@@ -40,14 +40,14 @@ const mode = [
   {value: 'modeOFF', name: 'MODE OFF'},
 
 ]
-const delayNow = ref(350)
-const modeNow = ref('mode7');
-const deviceNow = ref('ROKKY JR');
 
-function findModeNameByValue(value) {
+function findModeNameByValue(value: string) {
   const foundMode = mode.find(item => item.value === value);
   return foundMode ? foundMode.name : null;
 }
+
+import {alsData} from "@/state/state.ts";
+
 </script>
 
 <template>
@@ -56,32 +56,6 @@ function findModeNameByValue(value) {
 
     <main class="flex flex-1 flex-col gap-3 p-4 md:gap-3 md:p-8">
       <div class="grid gap-4 md:grid-cols-1 md:gap-8 lg:grid-cols-1">
-<!--        <Card>-->
-<!--          <CardHeader class="flex flex-row items-center justify-between space-y-2 pb-2">-->
-<!--            <CardTitle class="text-md font-medium">-->
-<!--              Welcome, ROCKY JR- -->
-<!--            </CardTitle>-->
-<!--            <Users class="h-4 w-4 text-muted-foreground"/>-->
-<!--          </CardHeader>-->
-<!--          <CardContent>-->
-<!--            <div class="my-2">-->
-<!--              <AspectRatio :ratio="16 / 9" class="bg-muted">-->
-<!--                <img-->
-<!--                    src="https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80"-->
-<!--                    alt="Photo by Drew Beamer"-->
-<!--                    class="rounded-md object-cover w-full h-full"-->
-<!--                >-->
-<!--              </AspectRatio>-->
-<!--            </div>-->
-
-<!--          </CardContent>-->
-<!--          <CardFooter class="border-t px-6 py-4 w-full">-->
-<!--            <Button>-->
-<!--              Ganti Foto, ROCKKY JR- -->
-<!--              <ArrowUpRight class="ml-2 h-4 w-4"/>-->
-<!--            </Button>-->
-<!--          </CardFooter>-->
-<!--        </Card>-->
         <Card>
           <CardHeader class="flex flex-row items-center justify-between space-y-2 pb-2">
             <CardTitle class="text-md font-medium">
@@ -95,7 +69,7 @@ function findModeNameByValue(value) {
                 Nama
               </p>
               <div class="text-2xl font-bold">
-                {{deviceNow}}
+                {{alsData.deviceNameALS.value}}
               </div>
             </div>
             <div class="my-2">
@@ -127,7 +101,7 @@ function findModeNameByValue(value) {
 
                       <div class="flex-1 text-center">
                         <div class=" font-bold tracking-tighter">
-                          <Textarea placeholder="Isikan Informasi Auto Light System Baru" v-model="deviceNow"/>
+                          <Textarea placeholder="Isikan Informasi Auto Light System Baru" v-model="alsData.deviceNameALS.value"/>
                         </div>
 
                       </div>
@@ -167,7 +141,7 @@ function findModeNameByValue(value) {
                 Mode Sedeang Berjalan
               </p>
               <div class="text-2xl font-bold">
-                {{ findModeNameByValue(modeNow) }}
+                {{ findModeNameByValue(alsData.modeALS.value) }}
               </div>
             </div>
           </CardContent>
@@ -189,7 +163,7 @@ function findModeNameByValue(value) {
                     <div class="flex items-center justify-center space-x-2">
                       <div class="flex-1 text-center">
                         <div class="text-6xl font-bold tracking-tighter">
-                          {{findModeNameByValue(modeNow)}}
+                          {{findModeNameByValue(alsData.modeALS.value)}}
                         </div>
                         <div class="text-[0.70rem] uppercase text-muted-foreground">
                           Mode Sekarang
@@ -199,7 +173,7 @@ function findModeNameByValue(value) {
 
                     <div class="my-2 px-3 h-auto">
                       <hr>
-                      <RadioGroup v-model="modeNow" class="grid mt-2 py-2 grid-cols-2 gap-4">
+                      <RadioGroup v-model="alsData.modeALS.value" class="grid mt-2 py-2 grid-cols-2 gap-4">
                         <template v-for="item in mode" :key="item.value">
                           <div>
                             <RadioGroupItem :id="item.value" :value="item.value" class="peer sr-only"/>
@@ -232,6 +206,7 @@ function findModeNameByValue(value) {
             </Drawer>
           </CardFooter>
         </Card>
+
         <Card>
           <CardHeader class="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle class="text-md font-medium">
@@ -245,7 +220,7 @@ function findModeNameByValue(value) {
                 Delay Hidup-Mati Sistem
               </p>
               <div class="text-2xl font-bold">
-                {{ delayNow/1000 }} Detik
+                {{ alsData.delayALS.value / 1000 }} Detik
               </div>
             </div>
           </CardContent>
@@ -269,15 +244,15 @@ function findModeNameByValue(value) {
                           variant="outline"
                           size="icon"
                           class="h-8 w-8 shrink-0 rounded-full"
-                          :disabled="delayNow <= 30"
-                          @click="delayNow -= 10"
+                          :disabled="alsData.delayALS.value <= 30"
+                          @click="alsData.decrementDelayALS(10)"
                       >
                         <Minus class="h-4 w-4"/>
                         <span class="sr-only">Decrease</span>
                       </Button>
                       <div class="flex-1 text-center">
                         <div class="text-7xl font-bold tracking-tighter">
-                          {{ delayNow }}
+                          {{ alsData.delayALS }}
                         </div>
                         <div class="text-[0.70rem] uppercase text-muted-foreground">
                           Satuan Mili Detik (Mili Sekon)
@@ -287,8 +262,8 @@ function findModeNameByValue(value) {
                           variant="outline"
                           size="icon"
                           class="h-8 w-8 shrink-0 rounded-full"
-                          :disabled="delayNow >= 1000"
-                          @click="delayNow += 10"
+                          :disabled="alsData.delayALS.value >= 1000"
+                          @click="alsData.incrementDelayALS(10)"
                       >
                         <Plus class="h-4 w-4"/>
                         <span class="sr-only">Increase</span>
@@ -319,7 +294,7 @@ function findModeNameByValue(value) {
       <div class="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
         <div class="text-center text-sm leading-loose text-muted-foreground md:text-left"><span class="inline-block">
           Built and designed by <a
-            href="https://twitter.com/shadcn" target="_blank"
+            href="#"
             class="underline underline-offset-4 font-bold decoration-foreground"> workalogi </a></span>
           <br>
 

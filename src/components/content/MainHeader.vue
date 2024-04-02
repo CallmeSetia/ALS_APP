@@ -3,6 +3,9 @@
 import TopbarTittle from "@/components/content/TopbarTittle.vue";
 import ThemeToogle from "@/components/content/ThemeToogle.vue";
 import Sidebar from "@/components/content/Sidebar.vue";
+
+import {settingsData} from "@/state/state.ts";
+
 </script>
 
 <template>
@@ -12,7 +15,10 @@ import Sidebar from "@/components/content/Sidebar.vue";
 
     <div class="flex w-full items-center text-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
       <TopbarTittle></TopbarTittle>
-      <ThemeToogle></ThemeToogle>
+      <div v-if="settingsData.themes.value == 'modern'">
+        <ThemeToogle></ThemeToogle>
+      </div>
+
     </div>
   </header>
 </template>
