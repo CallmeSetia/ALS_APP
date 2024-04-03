@@ -9,7 +9,7 @@ import {
 // import {AspectRatio} from '@/components/ui/aspect-ratio'
 import {Button} from '@/components/ui/button'
 import {Card, CardContent, CardFooter, CardHeader, CardTitle} from '@/components/ui/card'
-import {Minus, Plus} from 'lucide-vue-next'
+// import {Minus, Plus} from 'lucide-vue-next'
 import MainHeader from "@/components/content/MainHeader.vue";
 import {
   Drawer,
@@ -25,29 +25,62 @@ import {
 import {Label} from '@/components/ui/label'
 
 import {RadioGroup, RadioGroupItem} from '@/components/ui/radio-group'
-import { Textarea } from '@/components/ui/textarea'
-const mode = [
-  {value: 'mode1', name: 'MODE 1'},
-  {value: 'mode2', name: 'MODE 2'},
-  {value: 'mode3', name: 'MODE 3'},
-  {value: 'mode4', name: 'MODE 4'},
-  {value: 'mode5', name: 'MODE 5'},
-  {value: 'mode6', name: 'MODE 6'},
-  {value: 'mode7', name: 'MODE 7'},
-  {value: 'mode8', name: 'MODE 8'},
-  {value: 'mode9', name: 'MODE 9'},
-  {value: 'modeON', name: 'MODE ON'},
-  {value: 'modeOFF', name: 'MODE OFF'},
+import {Textarea} from '@/components/ui/textarea'
 
-]
 
 function findModeNameByValue(value: string) {
-  const foundMode = mode.find(item => item.value === value);
+  const foundMode = availableMode.find(item => item.value === value);
   return foundMode ? foundMode.name : null;
 }
 
-import {alsData} from "@/state/state.ts";
+import {alsData, settingsData} from "@/state/state.ts";
+import {availableMode} from "@/util/mockup.ts";
+import axios from "axios";
+// import {AlertDialogAction} from "@/components/ui/alert-dialog";
+import {ref} from "vue";
 
+const devName = ref(alsData.deviceNameALS.value)
+
+// let alertChangeName = 0
+async function setDataDeviceMode(val: any) {
+  try {
+    alsData.modeALS.value = val
+    const response = await axios.get(`/set/mode?value=${alsData.modeALS.value}`);
+    console.log(response)
+    return response
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+async function setDataDelayModeModern(val: number) {
+  try {
+    if (settingsData.themes.value == 'modern') {
+      console.log('run')
+      if (val != alsData.delayALS.value) {
+        console.log('TIdak Sinkron ' + val + ' - ' + alsData.delayALS.value)
+        alsData.delayALS.value = val
+        await axios.get(`/set/delay?value=${alsData.delayALS.value}`);
+      }
+    }
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+async function setDataDeviceName(val: any) {
+  try {
+    if (alsData.deviceNameALS.value != val) {
+      // alertChangeName = 1
+      alsData.deviceNameALS.value = val
+      const response = await axios.get(`/set/device/name?value=${alsData.deviceNameALS.value}`);
+      console.log(response)
+      return response
+    }
+  } catch (e) {
+    console.log(e)
+  }
+}
 </script>
 
 <template>
@@ -69,7 +102,7 @@ import {alsData} from "@/state/state.ts";
                 Nama
               </p>
               <div class="text-2xl font-bold">
-                {{alsData.deviceNameALS.value}}
+                {{ alsData.deviceNameALS.value }}
               </div>
             </div>
             <div class="my-2">
@@ -77,7 +110,15 @@ import {alsData} from "@/state/state.ts";
                 Serial/Nomor-Seri
               </p>
               <div class="text-2xl font-bold">
-                ALS21295123#212
+                {{ alsData.deviceSerialALS.value }}
+              </div>
+            </div>
+            <div class="my-2">
+              <p class="text-xs text-muted-foreground">
+                Jumlah Channel
+              </p>
+              <div class="text-2xl font-bold">
+                {{ alsData.deviceChALS.value }}
               </div>
             </div>
 
@@ -85,7 +126,7 @@ import {alsData} from "@/state/state.ts";
           <CardFooter class="border-t px-6 py-4 w-full">
             <Drawer>
               <DrawerTrigger as-child>
-                <Button>
+                <Button @click="devName=alsData.deviceNameALS.value ">
                   Ganti Informasi Sistem
                   <ArrowUpRight class="ml-2 h-4 w-4"/>
                 </Button>
@@ -101,7 +142,7 @@ import {alsData} from "@/state/state.ts";
 
                       <div class="flex-1 text-center">
                         <div class=" font-bold tracking-tighter">
-                          <Textarea placeholder="Isikan Informasi Auto Light System Baru" v-model="alsData.deviceNameALS.value"/>
+                          <Textarea placeholder="Isikan Informasi Auto Light System Baru" v-model="devName"/>
                         </div>
 
                       </div>
@@ -109,13 +150,13 @@ import {alsData} from "@/state/state.ts";
                     </div>
                     <div class="my-3 px-3 text-center h-auto">
                       <hr class="my-2">
-                      <div class="text-[0.70rem] uppercase text-muted-foreground">
+                      <div class="text-[0.70rem] uppercase text-muted-foreground text-red-500">
                         Ketika Anda Menyimpan, Sistem akan restart, kemudian mengganti SSID/Nama Wifi Anda
                       </div>
                     </div>
                   </div>
                   <DrawerFooter>
-                    <Button @click="">Simpan</Button>
+                    <Button @click="setDataDeviceName(devName)">Simpan</Button>
                     <DrawerClose as-child>
                       <Button variant="outline">
                         Cancel
@@ -141,7 +182,7 @@ import {alsData} from "@/state/state.ts";
                 Mode Sedeang Berjalan
               </p>
               <div class="text-2xl font-bold">
-                {{ findModeNameByValue(alsData.modeALS.value) }}
+                MODE : {{ findModeNameByValue(alsData.modeALS.value) }}
               </div>
             </div>
           </CardContent>
@@ -163,7 +204,7 @@ import {alsData} from "@/state/state.ts";
                     <div class="flex items-center justify-center space-x-2">
                       <div class="flex-1 text-center">
                         <div class="text-6xl font-bold tracking-tighter">
-                          {{findModeNameByValue(alsData.modeALS.value)}}
+                          MODE : {{ findModeNameByValue(alsData.modeALS.value) }}
                         </div>
                         <div class="text-[0.70rem] uppercase text-muted-foreground">
                           Mode Sekarang
@@ -173,9 +214,9 @@ import {alsData} from "@/state/state.ts";
 
                     <div class="my-2 px-3 h-auto">
                       <hr>
-                      <RadioGroup v-model="alsData.modeALS.value" class="grid mt-2 py-2 grid-cols-2 gap-4">
-                        <template v-for="item in mode" :key="item.value">
-                          <div>
+                      <RadioGroup v-model="alsData.modeALS.value" class="grid mt-2 py-2 grid-cols-4 gap-4">
+                        <template v-for="item in availableMode" :key="item.value">
+                          <div @click="setDataDeviceMode(item.value)">
                             <RadioGroupItem :id="item.value" :value="item.value" class="peer sr-only"/>
                             <Label
                                 :for="item.value"
@@ -194,10 +235,10 @@ import {alsData} from "@/state/state.ts";
                     </div>
                   </div>
                   <DrawerFooter>
-                    <Button>Submit</Button>
+                    <!--                    <Button>Submit</Button>-->
                     <DrawerClose as-child>
-                      <Button variant="outline">
-                        Cancel
+                      <Button variant="secondary">
+                        Kembali
                       </Button>
                     </DrawerClose>
                   </DrawerFooter>
@@ -240,16 +281,7 @@ import {alsData} from "@/state/state.ts";
                   </DrawerHeader>
                   <div class="p-4 pb-0">
                     <div class="flex items-center justify-center space-x-2">
-                      <Button
-                          variant="outline"
-                          size="icon"
-                          class="h-8 w-8 shrink-0 rounded-full"
-                          :disabled="alsData.delayALS.value <= 30"
-                          @click="alsData.decrementDelayALS(10)"
-                      >
-                        <Minus class="h-4 w-4"/>
-                        <span class="sr-only">Decrease</span>
-                      </Button>
+
                       <div class="flex-1 text-center">
                         <div class="text-7xl font-bold tracking-tighter">
                           {{ alsData.delayALS }}
@@ -258,25 +290,25 @@ import {alsData} from "@/state/state.ts";
                           Satuan Mili Detik (Mili Sekon)
                         </div>
                       </div>
-                      <Button
-                          variant="outline"
-                          size="icon"
-                          class="h-8 w-8 shrink-0 rounded-full"
-                          :disabled="alsData.delayALS.value >= 1000"
-                          @click="alsData.incrementDelayALS(10)"
-                      >
-                        <Plus class="h-4 w-4"/>
-                        <span class="sr-only">Increase</span>
-                      </Button>
+
                     </div>
                     <div class="my-3 px-3 h-[120px]">
-
+                      <Vueform>
+                        <SliderElement  :default="alsData.delayALS.value"
+                                        :ref="alsData.delayALS.value" name="slider" :tooltips="true"
+                                        tooltip-position="bottom"
+                                        :max="300" :min="30"
+                                        @updated="(form$ : any) => {
+                                       form$.value = alsData.delayALS.value
+                                     }"
+                                       @change="(val:number) => {setDataDelayModeModern(val)}"
+                                       class="mt-5 w-[300px]"/>
+                      </Vueform>
                     </div>
                   </div>
                   <DrawerFooter>
-                    <Button>Simpan</Button>
                     <DrawerClose as-child>
-                      <Button variant="outline">
+                      <Button variant="secondary">
                         Cancel
                       </Button>
                     </DrawerClose>

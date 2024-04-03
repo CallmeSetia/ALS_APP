@@ -10,8 +10,8 @@ const alsDataStateManagement = createGlobalState(() => {
     const  deviceChALS = ref(24);
 
 
-    const modeALS = ref('');
-    const delayALS = ref(30);
+    const modeALS = ref();
+    const delayALS  = ref();
 
 
     // Setters

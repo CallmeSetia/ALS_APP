@@ -11,6 +11,9 @@ module.exports = {
     './components/**/*.{ts,tsx,vue}',
     './app/**/*.{ts,tsx,vue}',
     './src/**/*.{ts,tsx,vue}',
+    './vueformConfig.js', // or where `vueformConfig.js` is located. Change `.js` to `.ts` if required.
+    './node_modules/@vueform/vueform/themes/tailwind/**/*.vue',
+    './node_modules/@vueform/vueform/themes/tailwind/**/*.js',
 	],
   
   theme: {
@@ -89,5 +92,8 @@ module.exports = {
       },
     },
   },
-  plugins: [animate],
+  plugins: [
+      animate,
+    require('@vueform/vueform/tailwind'),
+  ],
 }
