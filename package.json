@@ -24,6 +24,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@vueform/vueform": "^1.9.2",
     "@vueuse/core": "^10.9.0",
     "axios": "^1.6.8",
     "class-variance-authority": "^0.7.0",
