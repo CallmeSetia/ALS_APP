@@ -21,6 +21,7 @@ const settingStateManagement = createGlobalState(() => {
     const  colors = ref('dark');
     const loader = ref(false);
     const page = ref('index');
+    const failedLoad = ref(0);
 
     // Setters
     const setThemes = (newTheme : string) => {
@@ -50,7 +51,7 @@ const settingStateManagement = createGlobalState(() => {
         loader.value = false;
     }
     return {
-        themes, colors, loader, page,
+        themes, colors, loader, page,failedLoad,
         setColors,setThemes,
         startLoading, stopLoading
     };
