@@ -29,7 +29,7 @@ async function fetchDataDeviceChannel() {
     return response.data
   }
   catch (e) {
-    console.log(e)
+    return 0
   }
 }
 async function fetchDataDeviceDelay() {
@@ -38,7 +38,7 @@ async function fetchDataDeviceDelay() {
     return response.data
   }
   catch (e) {
-    console.log(e)
+    return 0
   }
 }
 
@@ -48,7 +48,7 @@ async function fetchDataDeviceName() {
     return response.data
   }
   catch (e) {
-    console.log(e)
+    return 0
   }
 }
 
@@ -58,7 +58,7 @@ async function fetchDataDeviceSerialNumber() {
     return response.data
   }
   catch (e) {
-    console.log(e)
+    return 0
   }
 }
 
@@ -68,7 +68,7 @@ async function fetchDataDeviceMode() {
     return response.data.toString()
   }
   catch (e) {
-    console.log(e)
+    return 0
   }
 }
 
@@ -81,6 +81,7 @@ async function fetchData() {
   const ch = await fetchDataDeviceChannel();
   const deviceName = await fetchDataDeviceName();
   const serialNumber = await fetchDataDeviceSerialNumber();
+
 
   const mode = await fetchDataDeviceMode();
   const delay = await fetchDataDeviceDelay();
@@ -96,7 +97,7 @@ async function fetchData() {
 }
 
 async function syncMockDataToState() {
-  settingsData.startLoading(); // Memulai loading
+  // settingsData.startLoading(); // Memulai loading
 
 
   // Memanggil fetchData setelah loading dimulai
