@@ -1,5 +1,6 @@
 // vite.config.ts
 import path from "path";
+import { splitVendorChunkPlugin } from 'vite'
 import { defineConfig } from "file:///E:/KERJA/2024/Personal/ALS_App/als-app/node_modules/vite/dist/node/index.js";
 import vue from "file:///E:/KERJA/2024/Personal/ALS_App/als-app/node_modules/@vitejs/plugin-vue/dist/index.mjs";
 import tailwind from "file:///E:/KERJA/2024/Personal/ALS_App/als-app/node_modules/tailwindcss/lib/index.js";
