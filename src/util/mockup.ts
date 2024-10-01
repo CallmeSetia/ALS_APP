@@ -17,5 +17,9 @@ export const availableMode = [
     {value: '9', name: '8'},
     {value: '10', name: '9'},
     {value: '11', name: '10'},
+    {value: '12', name: '11'},
+    {value: '13', name: '12'},
+    {value: '14', name: '13'},
+    {value: '15', name: '14'},
 ]
 

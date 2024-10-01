@@ -98,11 +98,11 @@ async function fetchData() {
 
 async function syncMockDataToState() {
   // settingsData.startLoading(); // Memulai loading
-
+  colorTheme.value = 'dark'
 
   // Memanggil fetchData setelah loading dimulai
   await fetchData();
-  colorTheme.value = 'dark'
+
   // Menunda pemanggilan stopLoading selama 1500 milidetik
   setTimeout(() => {
     settingsData.stopLoading(); // Menghentikan loading setelah 1500 milidetik
